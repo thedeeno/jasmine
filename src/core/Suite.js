@@ -6,19 +6,25 @@
  * @param {String} description
  * @param {Function} specDefinitions
  * @param {jasmine.Suite} parentSuite
+ * @param {Object} tags
  */
-jasmine.Suite = function(env, description, specDefinitions, parentSuite) {
+jasmine.Suite = function(env, description, specDefinitions, parentSuite, tags) {
   var self = this;
   self.id = env.nextSuiteId ? env.nextSuiteId() : null;
   self.description = description;
   self.queue = new jasmine.Queue(env);
   self.parentSuite = parentSuite;
+  self.tags = tags || self.inheritTags(parentSuite);
   self.env = env;
   self.before_ = [];
   self.after_ = [];
   self.children_ = [];
   self.suites_ = [];
   self.specs_ = [];
+};
+
+jasmine.Suite.prototype.inheritTags = function(suite) {
+  return (typeof parentSuite !== "undefined" && parentSuite !== null) ? parentSuite.tags : {};
 };
 
 jasmine.Suite.prototype.getFullName = function() {

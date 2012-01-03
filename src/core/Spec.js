@@ -6,7 +6,7 @@
  * @param {jasmine.Suite} suite
  * @param {String} description
  */
-jasmine.Spec = function(env, suite, description) {
+jasmine.Spec = function(env, suite, description, tags) {
   if (!env) {
     throw new Error('jasmine.Env() required');
   }
@@ -19,6 +19,7 @@ jasmine.Spec = function(env, suite, description) {
   spec.suite = suite;
   spec.description = description;
   spec.queue = new jasmine.Queue(env);
+  spec.tags = tags;
 
   spec.afterCallbacks = [];
   spec.spies_ = [];

@@ -58,6 +58,22 @@ jasmine.Runner.prototype.specs = function () {
   return specs;
 };
 
+jasmine.Runner.prototype.filterRun = function(filter) {
+  var filtered = [];
+  var blocks = this.queue.blocks;
+  for (var i=0; i < blocks.length; i++) {
+    for (key in filter) {
+      if (blocks[i].tags[key] === filter[key]){
+        filtered.push(blocks[i])
+      }
+    }
+  }
+
+  if (filtered.length) {
+    this.queue.blocks = filtered;
+  }
+};
+
 jasmine.Runner.prototype.suites = function() {
   return this.suites_;
 };

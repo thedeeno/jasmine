@@ -90,8 +90,14 @@ jasmine.Env.prototype.execute = function() {
   this.currentRunner_.execute();
 };
 
-jasmine.Env.prototype.describe = function(description, specDefinitions) {
-  var suite = new jasmine.Suite(this, description, specDefinitions, this.currentSuite);
+jasmine.Env.prototype.describe = function(description, tags, specDefinitions) {
+  if (!specDefinitions) {
+    specDefinitions = tags;
+    tags = null;
+  }
+
+  tags = tags || {};
+  var suite = new jasmine.Suite(this, description, specDefinitions, this.currentSuite, tags);
 
   var parentSuite = this.currentSuite;
   if (parentSuite) {
@@ -148,8 +154,13 @@ jasmine.Env.prototype.xdescribe = function(desc, specDefinitions) {
   };
 };
 
-jasmine.Env.prototype.it = function(description, func) {
-  var spec = new jasmine.Spec(this, this.currentSuite, description);
+jasmine.Env.prototype.it = function(description, tags, func) {
+  if (!func) {
+    func = tags;
+    tags = null;
+  }
+
+  var spec = new jasmine.Spec(this, this.currentSuite, description, tags);
   this.currentSuite.add(spec);
   this.currentSpec = spec;
 

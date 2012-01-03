@@ -159,6 +159,36 @@ describe('RunnerTest', function() {
     expect(runnerResults.failedCount).toEqual(1);
   });
 
+  describe('#filterRun', function(){
+    it('should remove blocks without matching filter', function(){
+      env.describe('one suite description', {focus:true}, function () {
+        env.it('should be a test', function() {
+          this.runs(function () {
+            this.expect(true).toEqual(true);
+          });
+        });
+      });
+
+      env.describe('another suite description', function () {
+        env.it('should be another test', function() {
+          this.runs(function () {
+            this.expect(true).toEqual(false);
+          });
+        });
+      });
+      env.currentRunner().filterRun({focus:true})
+
+      env.currentRunner().execute();
+
+      var runnerResults = env.currentRunner().results();
+      expect(runnerResults.totalCount).toEqual(1);
+      expect(runnerResults.passedCount).toEqual(1);
+      expect(runnerResults.failedCount).toEqual(0);
+
+    });
+  
+  });
+
   it('should roll up results from all specs', function() {
     env.describe('one suite description', function () {
       env.it('should be a test', function() {

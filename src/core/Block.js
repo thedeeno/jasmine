@@ -10,6 +10,12 @@ jasmine.Block = function(env, func, spec) {
   this.env = env;
   this.func = func;
   this.spec = spec;
+  if (!spec) {
+    this.tags = {};
+  }
+  else {
+    this.tags = spec.tags;
+  }
 };
 
 jasmine.Block.prototype.execute = function(onComplete) {  
